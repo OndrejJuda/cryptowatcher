@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Coin, Error } from '../components';
 import { ICoin } from '../components/Coin';
+import { PropagateLoader } from 'react-spinners';
 import useFetch from '../hooks/useFetch';
 
 interface CoinListProps {
-
+  // TODO: MAKE THIS AS CONTEXT
+  darkMode: boolean;
 }
 
-const CoinList: React.FC<CoinListProps> = (props) => {
+const CoinList: React.FC<CoinListProps> = ({ darkMode }) => {
   const [coins, setCoins] = useState<ICoin[]>([]);
   const { error, isLoading, fetchData } = useFetch();
 
@@ -40,7 +42,9 @@ const CoinList: React.FC<CoinListProps> = (props) => {
 
   if (isLoading) {
     return (
-      <div className='h-screen col-span-4 text-3xl'>Loading...</div>
+      <main className='flex justify-center items-center h-screen'>
+        <PropagateLoader size={30} color={darkMode ? '#ffffff' : '#0f1624'} />
+      </main>
     );
   }
 
@@ -51,13 +55,13 @@ const CoinList: React.FC<CoinListProps> = (props) => {
   }
 
   return (
-    <>
+    <main className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-10 gap-4 relative'>
       {
         coins.map((coin) => (
           <Coin key={coin.id} coin={coin} />
         ))
       }
-    </>
+    </main>
   );
 };
 

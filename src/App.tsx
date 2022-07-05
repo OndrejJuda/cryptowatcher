@@ -22,13 +22,11 @@ const App = () => {
     <div className={`${darkMode ? 'dark' : ''}`}>
       <div className='bg-white dark:bg-eerie text-eerie dark:text-white'>
         <Header darkMode={darkMode} setDarkMode={toggleDarkMode} />
-        <main className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-10 gap-4 relative'>
-          <Routes>
-            <Route path='/coins' element={<CoinList />} />
-            <Route path='/news' element={<NewsList />} />
-            <Route path='*' element={<Navigate to='/coins' replace />} />
-          </Routes>
-        </main>
+        <Routes>
+          <Route path='/coins' element={<CoinList darkMode={darkMode} />} />
+          <Route path='/news' element={<NewsList />} />
+          <Route path='*' element={<Navigate to='/coins' replace />} />
+        </Routes>
         {/* <Footer /> */}
       </div>
     </div>
