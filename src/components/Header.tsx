@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 interface HeaderProps {
   darkMode: boolean;
-  setDarkMode: (darkMode: boolean) => void;
+  setDarkMode: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
@@ -33,7 +33,7 @@ const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
       <button
         className='text-2xl ml-auto py-4 px-5 shadow-lg rounded-full relative w-16 h-10 dark:bg-white'
         type='button'
-        onClick={() => setDarkMode(!darkMode)}
+        onClick={setDarkMode}
       >
         <div className={`absolute top-0.5 ${darkMode ? 'opacity-0 right-0' : 'opacity-1 left-0'}`}>
           ☀

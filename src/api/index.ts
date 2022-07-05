@@ -9,8 +9,6 @@ const OPTIONS = {
   }
 }
 
-console.log(process.env.REACT_APP_RAPID_API_KEY)
-
 export const fetchCoins = async () => {
   const response = await fetch(
     `${URL}coins/markets?vs_currency=usd&page=1&per_page=50&order=market_cap_desc`,
@@ -19,8 +17,8 @@ export const fetchCoins = async () => {
 
   const data = await response.json();
 
-  return data.map((coin: any) => (
-    {
+  return data.map((coin: any) => {
+    return {
       id: coin.id,
       symbol: coin.symbol,
       name: coin.name,
@@ -28,7 +26,8 @@ export const fetchCoins = async () => {
       currentPrice: coin.current_price,
       marketCap: coin.market_cap,
       priceChangePercentage24: coin.price_change_percentage_24h,
-      athChangePercentage: coin.ath_change_percentage,
+      downFromATH: coin.ath_change_percentage,
+      upToATH: (coin.ath - coin.current_price) / coin.current_price * 100,
     }
-  ));
+  });
 } 

@@ -6,7 +6,7 @@ interface NewsListProps {
 
 const NewsList: React.FC<NewsListProps> = (props) => {
   return (
-    <div>NewsList</div>
+    <div className='h-screen text-3xl col-span-4'>Work in progress...</div>
   );
 };
 

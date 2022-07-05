@@ -15,6 +15,13 @@ const CoinList: React.FC<CoinListProps> = (props) => {
       .then((result) => setCoins(result));
   }, []);
 
+  if (coins.length === 0) {
+    // place for loading
+    return (
+      <div className='h-screen col-span-4 text-3xl'>Loading...</div>
+    );
+  }
+
   return (
     <>
       {
