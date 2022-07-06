@@ -16,14 +16,15 @@ const CoinList: React.FC<CoinListProps> = ({ darkMode }) => {
   const fetchDataHandler = (data: any) => {
     const newCoins = data.map((coin: any) => {
       return {
-        id: coin.id,
-        symbol: coin.symbol,
-        name: coin.name,
-        image: coin.image,
         currentPrice: coin.current_price,
+        downFromATH: coin.ath_change_percentage,
+        id: coin.id,
+        image: coin.image,
+        name: coin.name,
         marketCap: coin.market_cap,
         priceChangePercentage24: coin.price_change_percentage_24h,
-        downFromATH: coin.ath_change_percentage,
+        rank: coin.market_cap_rank,
+        symbol: coin.symbol,
         upToATH: (coin.ath - coin.current_price) / coin.current_price * 100,
       }
     });

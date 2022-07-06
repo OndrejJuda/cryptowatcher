@@ -5,18 +5,19 @@ interface CoinProps {
 }
 
 export interface ICoin {
-  id: string,
-  symbol: string,
-  name: string,
-  image: string,
-  currentPrice: number,
-  marketCap: number,
-  priceChangePercentage24: number,
-  downFromATH: number,
-  upToATH: number,
+  currentPrice: number;
+  downFromATH: number;
+  id: string;
+  image: string;
+  marketCap: number;
+  name: string;
+  priceChangePercentage24: number;
+  rank: number;
+  symbol: string;
+  upToATH: number;
 }
 
-const Coin: React.FC<CoinProps> = ({ coin: { symbol, name, image, currentPrice, marketCap, priceChangePercentage24, downFromATH, upToATH } }) => {
+const Coin: React.FC<CoinProps> = ({ coin: { symbol, name, image, currentPrice, marketCap, priceChangePercentage24, downFromATH, upToATH, rank } }) => {
   return (
     <article
       className='shadow-xl rounded-xl p-4 dark:text-white dark:bg-eerie-400 bg-eerie-50'
@@ -32,7 +33,7 @@ const Coin: React.FC<CoinProps> = ({ coin: { symbol, name, image, currentPrice, 
           height='32px'
           className=''
         />
-        {symbol.toUpperCase()}
+        {rank}. {symbol.toUpperCase()}
       </h3>
       <p className='flex justify-between items-center flex-wrap text-lg mb-3'>
         <span className='text-3xl'>
