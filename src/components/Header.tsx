@@ -6,6 +6,12 @@ interface HeaderProps {
   setDarkMode: () => void;
 }
 
+/*
+  TODO: search with autocomplete
+  btc = document.getElementById('btc');
+  btc.scrollIntoView({behavior: 'smooth'});
+*/
+
 const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
   return (
     <header className='px-10 py-4 flex flex-wrap items-center text-eerie dark:text-white bg-white dark:bg-eerie'>
