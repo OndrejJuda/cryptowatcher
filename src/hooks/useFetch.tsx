@@ -1,28 +1,17 @@
 import { useState, useCallback } from 'react';
 
-const URL = 'https://coingecko.p.rapidapi.com/'
-
-const OPTIONS = {
-  method: 'GET',
-  headers: {
-    'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY!,
-    'X-RapidAPI-Host': 'coingecko.p.rapidapi.com',
-    'Content-Type': 'application/json'
-  }
-}
-
 const useFetch = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback(async (url: string, dataHandler: any) => {
+  const fetchData = useCallback(async (url: string, options: any, dataHandler: any) => {
     setIsLoading(true);
     setError(null);
 
     try {
       const response = await fetch(
-        `${URL}${url}`,
-        OPTIONS
+        url,
+        options
       );
 
       if (!response.ok) {

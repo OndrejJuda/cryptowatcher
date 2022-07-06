@@ -1,9 +1,18 @@
-import React, { useState, useEffect, useContext, FC } from 'react';
+import React, { useState, useEffect, useContext, FC, useCallback } from 'react';
 import { Coin, Error } from '../components';
 import { ICoin } from '../components/Coin';
 import { PropagateLoader } from 'react-spinners';
 import useFetch from '../hooks/useFetch';
 import AppContext from '../context/app-context';
+
+const OPTIONS = {
+  method: 'GET',
+  headers: {
+    'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY!,
+    'X-RapidAPI-Host': 'coingecko.p.rapidapi.com',
+    'Content-Type': 'application/json'
+  }
+}
 
 const CoinList: FC = () => {
   const { darkMode } = useContext(AppContext);
@@ -17,31 +26,38 @@ const CoinList: FC = () => {
     setPage(1);
   }, []);
 
+  const fetchDataHandler = useCallback(
+    (data: any) => {
+      const newCoins = data.map((coin: any) => {
+        return {
+          currentPrice: coin.current_price,
+          downFromATH: coin.ath_change_percentage,
+          id: coin.id,
+          image: coin.image,
+          name: coin.name,
+          marketCap: coin.market_cap,
+          priceChangePercentage24: coin.price_change_percentage_24h,
+          rank: coin.market_cap_rank,
+          symbol: coin.symbol,
+          upToATH: (coin.ath - coin.current_price) / coin.current_price * 100,
+        }
+      });
+      setCoins((prevValue) =>
+        [...new Map([...prevValue, ...newCoins].map((item, key) => [item.id, item])).values()]
+      );
+    },
+    []
+  );
+
   useEffect(() => {
     if (page > 0) {
-      fetchData(`coins/markets?vs_currency=usd&page=${page}&per_page=50&order=market_cap_desc`, fetchDataHandler);
+      fetchData(
+        `https://coingecko.p.rapidapi.com/coins/markets?vs_currency=usd&page=${page}&per_page=50&order=market_cap_desc`,
+        OPTIONS,
+        fetchDataHandler
+      );
     }
-  }, [fetchData, page]);
-
-  const fetchDataHandler = (data: any) => {
-    const newCoins = data.map((coin: any) => {
-      return {
-        currentPrice: coin.current_price,
-        downFromATH: coin.ath_change_percentage,
-        id: coin.id,
-        image: coin.image,
-        name: coin.name,
-        marketCap: coin.market_cap,
-        priceChangePercentage24: coin.price_change_percentage_24h,
-        rank: coin.market_cap_rank,
-        symbol: coin.symbol,
-        upToATH: (coin.ath - coin.current_price) / coin.current_price * 100,
-      }
-    });
-    setCoins((prevValue) =>
-      [...new Map([...prevValue, ...newCoins].map((item, key) => [item.id, item])).values()]
-    );
-  }
+  }, [fetchData, page, fetchDataHandler]);
 
   if (error) {
     return (
