@@ -7,17 +7,20 @@ interface IAppContext {
 }
 
 const AppContext = createContext<IAppContext>({
-  darkMode: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches,
+  darkMode: false,
   setDarkMode: () => { },
 });
 
-export const AppContextProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+export const AppContextProvider: FC<PropsWithChildren<IAppContext>> = ({ children }) => {
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const localStorageIsDarkMode = window.localStorage.getItem('isDarkMode');
     if (localStorageIsDarkMode !== undefined) {
-      setDarkMode(localStorageIsDarkMode === 'true')
+      setDarkMode(localStorageIsDarkMode === 'true');
+    }
+    else {
+      setDarkMode(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
     }
   }, []);
 

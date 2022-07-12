@@ -1,32 +1,37 @@
-import React, { useState, useEffect, useContext, FC, useCallback } from 'react';
-import { Coin, Error } from '../components';
-import { ICoin } from '../components/Coin';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
+import { NextPage } from 'next';
+import { Coin, Error } from '../../components';
+import { ICoin } from '../../components/Coin';
 import { PropagateLoader } from 'react-spinners';
-import useFetch from '../hooks/useFetch';
-import AppContext from '../context/app-context';
+import useFetch from '../../hooks/useFetch';
+import AppContext from '../../contexts/app-context';
+import CoinContext from '../../contexts/coin-context';
 
-const OPTIONS = {
-  method: 'GET',
-  headers: {
-    'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY!,
-    'X-RapidAPI-Host': 'coingecko.p.rapidapi.com',
-    'Content-Type': 'application/json'
-  }
-}
+let FIRSTRUN = true;
 
-const CoinList: FC = () => {
+const Coins: NextPage = () => {
   const { darkMode } = useContext(AppContext);
-
-  const [coins, setCoins] = useState<ICoin[]>([]);
-  const [page, setPage] = useState<number>(0);
-
-  const { error, isLoading, fetchData } = useFetch();
+  const { coins, setCoins, page, setPage } = useContext(CoinContext);
+  const { error, isLoading, fetchData } = useFetch(setPage);
 
   useEffect(() => {
-    setPage(1);
+    if (FIRSTRUN) {
+      fetchDataHandler();
+      FIRSTRUN = false;
+    }
+    return () => { FIRSTRUN = true };
   }, []);
 
-  const fetchDataHandler = useCallback(
+  const fetchDataHandler = () => {
+    if (isLoading) return;
+    fetchData(
+      `/api/coins`,
+      page,
+      dataProcessor
+    );
+  };
+
+  const dataProcessor = useCallback(
     (data: any) => {
       const newCoins = data.map((coin: any) => {
         return {
@@ -48,16 +53,6 @@ const CoinList: FC = () => {
     },
     []
   );
-
-  useEffect(() => {
-    if (page > 0) {
-      fetchData(
-        `https://coingecko.p.rapidapi.com/coins/markets?vs_currency=usd&page=${page}&per_page=50&order=market_cap_desc`,
-        OPTIONS,
-        fetchDataHandler
-      );
-    }
-  }, [fetchData, page, fetchDataHandler]);
 
   if (error) {
     return (
@@ -85,7 +80,7 @@ const CoinList: FC = () => {
         {
           coins.map((coin, i) => {
             return (
-              <Coin key={coin.id} isLoading={isLoading} coin={coin} isLastInArray={coins.length === i + 1} incrementPage={setPage.bind(null, (prevValue) => prevValue + 1)} />
+              <Coin key={coin.id} isLoading={isLoading} coin={coin} isLastInArray={coins.length === i + 1} fetchDataHandler={fetchDataHandler} />
             );
           })
         }
@@ -101,4 +96,4 @@ const CoinList: FC = () => {
   );
 };
 
-export default CoinList;
+export default Coins;

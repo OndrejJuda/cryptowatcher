@@ -1,17 +1,20 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
-const useFetch = () => {
+const useFetch = (setPage: () => void) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback(async (url: string, options: any, dataHandler: any) => {
+  const fetchData = useCallback(async (url: string, page: number, dataHandler: any) => {
     setIsLoading(true);
     setError(null);
 
     try {
       const response = await fetch(
         url,
-        options
+        {
+          method: 'POST',
+          body: JSON.stringify({ page }),
+        }
       );
 
       if (!response.ok) {
@@ -25,6 +28,8 @@ const useFetch = () => {
     } catch (error: any) {
       setError(error.message)
     }
+
+    setPage();
     setIsLoading(false);
   }, []);
 

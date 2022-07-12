@@ -1,13 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 
-interface INewsProps {
+interface IArticleProps {
   isLoading: boolean;
   isLastInArray: boolean;
-  incrementPage: () => void;
-  newsItem: INews;
+  fetchDataHandler: () => void;
+  articleItem: IArticle;
 }
 
-export interface INews {
+export interface IArticle {
   id: number;
   published: Date;
   source: {
@@ -26,9 +26,9 @@ export interface ITag {
   image?: string;
 }
 
-const News: React.FC<INewsProps> = ({
-  newsItem: { id, published, source, title, tags, url },
-  isLastInArray, isLoading, incrementPage
+const Article: React.FC<IArticleProps> = ({
+  articleItem: { id, published, source, title, tags, url },
+  isLastInArray, isLoading, fetchDataHandler
 }) => {
   const observer = useRef<IntersectionObserver | null>(null);
   const newsRef = useRef<HTMLElement | null>(null);
@@ -38,7 +38,7 @@ const News: React.FC<INewsProps> = ({
       observer.current = new IntersectionObserver(
         (entries) => {
           const [entry] = entries;
-          if (entry.isIntersecting) incrementPage();
+          if (entry.isIntersecting) fetchDataHandler();
         }
       );
       observer.current.observe(newsRef.current)
@@ -46,7 +46,7 @@ const News: React.FC<INewsProps> = ({
       observer.current.disconnect();
       observer.current = null;
     }
-  }, [observer, newsRef, isLastInArray, incrementPage, isLoading]);
+  }, [observer, newsRef, isLastInArray, fetchDataHandler, isLoading]);
   return (
     <article
       className='shadow-lg rounded-xl p-4 w-full dark:text-white dark:bg-eerie-400 bg-eerie-50'
@@ -61,4 +61,4 @@ const News: React.FC<INewsProps> = ({
   );
 };
 
-export default News;
+export default Article;

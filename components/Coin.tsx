@@ -3,7 +3,7 @@ import React, { useRef, useEffect, FC } from 'react';
 interface ICoinProps {
   coin: ICoin;
   isLastInArray: boolean;
-  incrementPage: () => void;
+  fetchDataHandler: () => void;
   isLoading: boolean; // TODO: MOVE TO CONTEXT
 }
 
@@ -25,7 +25,7 @@ const formatCurrency = (num: number) => new Intl.NumberFormat('en-US', { style: 
 const Coin: FC<ICoinProps> = ({
   coin: { symbol, name, image, currentPrice, marketCap, priceChangePercentage24, downFromATH, upToATH, rank },
   isLastInArray,
-  incrementPage,
+  fetchDataHandler,
   isLoading,
 }) => {
   const observer = useRef<IntersectionObserver | null>(null);
@@ -36,7 +36,7 @@ const Coin: FC<ICoinProps> = ({
       observer.current = new IntersectionObserver(
         (entries) => {
           const [entry] = entries;
-          if (entry.isIntersecting) incrementPage();
+          if (entry.isIntersecting) fetchDataHandler();
         }
       );
       observer.current.observe(coinRef.current)
@@ -44,7 +44,7 @@ const Coin: FC<ICoinProps> = ({
       observer.current.disconnect();
       observer.current = null;
     }
-  }, [observer, coinRef, isLastInArray, incrementPage, isLoading]);
+  }, [observer, coinRef, isLastInArray, fetchDataHandler, isLoading]);
 
   return (
     <article

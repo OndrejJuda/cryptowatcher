@@ -1,5 +1,6 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import Link from 'next/link';
+import NavLink from './NavLink';
 
 interface HeaderProps {
   darkMode: boolean;
@@ -20,21 +21,14 @@ const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
       </h1>
       <nav className='text-2xl flex gap-4'>
         <NavLink
-          to='/coins'
-          className={({ isActive }) =>
-            `${isActive ? 'border-b-4' : ''} border-eerie dark:border-white hover:border-b-4 transition`
-          }
-        >
-          <h2>Coins</h2>
-        </NavLink>
+          href='/coins'
+          title='Coins'
+
+        />
         <NavLink
-          to='/news'
-          className={({ isActive }) =>
-            `${isActive ? 'border-b-4' : ''} border-eerie dark:border-white hover:border-b-4 transition`
-          }
-        >
-          <h2>News</h2>
-        </NavLink>
+          href='/news'
+          title='News'
+        />
       </nav>
       <button
         className='text-2xl ml-auto py-4 px-5 shadow-lg rounded-full relative w-16 h-10 dark:bg-white'
