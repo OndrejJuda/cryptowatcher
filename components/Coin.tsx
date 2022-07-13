@@ -69,8 +69,8 @@ const Coin: FC<ICoinProps> = ({
         <span className='text-3xl'>
           {currentPrice ? formatCurrency(currentPrice) : 'N/A'}
         </span>
-        <span className={`${priceChangePercentage24 && (priceChangePercentage24 > 0 ? 'text-green-600' : 'text-red-600')}`}>
-          {priceChangePercentage24 ? `${priceChangePercentage24.toFixed(2)}%` : 'N/A'}
+        <span className={`${priceChangePercentage24 && (priceChangePercentage24 > 0 ? 'text-green-600' : 'text-red-600')} flex items-center gap-1`}>
+          <span className={`text-3xl ${(priceChangePercentage24 ?? 0) > 0 ? '-mt-1' : ''}`}>{priceChangePercentage24 && priceChangePercentage24 !== 0 ? (priceChangePercentage24 > 0 ? '↑' : '↓') : ''}</span> {priceChangePercentage24 ? `${priceChangePercentage24.toFixed(2)}%` : 'N/A'}
         </span>
       </p>
       <p className='mb-2'>
