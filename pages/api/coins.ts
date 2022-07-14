@@ -14,8 +14,6 @@ const URL = 'https://coingecko.p.rapidapi.com/';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { page } = JSON.parse(req.body);
 
-  console.log(`${URL}coins/markets?vs_currency=usd&page=${page}&per_page=50&order=market_cap_desc`)
-
   const response = await fetch(
     `${URL}coins/markets?vs_currency=usd&page=${page}&per_page=50&order=market_cap_desc`,
     OPTIONS
