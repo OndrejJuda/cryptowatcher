@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { NextPage } from 'next';
 import { Article, Error } from '../../components';
-import { IArticle, ITag } from '../../components/Article';
+import { IArticle } from '../../components/Article';
 import { PropagateLoader } from 'react-spinners';
 import useFetch from '../../hooks/useFetch';
 import AppContext from '../../contexts/app-context';
 import NewsContext from '../../contexts/news-context';
+import { ITag } from '../../components/Tag';
 
 let FIRSTRUN = true;
 

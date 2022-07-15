@@ -25,10 +25,6 @@ const Layout: FC<PropsWithChildren<{}>> = ({ children }) => {
 
   return (
     <>
-      <Head>
-        <title>CryptoWatcher</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <div className={`${darkMode ? 'dark' : ''}`}>
         <div className='bg-white dark:bg-eerie text-eerie dark:text-white relative'>
           <Header darkMode={darkMode} setDarkMode={setDarkMode} />
