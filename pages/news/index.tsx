@@ -37,9 +37,9 @@ const News: NextPage = (props) => {
     (data: any) => {
       const mappedData = data.map((article: any): IArticle => (
         {
-          description: article.metadata.description,
+          description: article.metadata?.description ?? '',
           id: article.id,
-          image: article.metadata.image,
+          image: article.metadata?.image,
           published: new Date(article.published_at),
           source: {
             title: article.source.title,
@@ -58,6 +58,7 @@ const News: NextPage = (props) => {
         }
       ));
       setArticles((prevValue) => [...prevValue, ...mappedData]);
+      console.log(mappedData)
     },
     []
   );

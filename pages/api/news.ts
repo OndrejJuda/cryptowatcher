@@ -6,7 +6,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { page } = JSON.parse(req.body);
 
   const response = await fetch(
-    `${URL}api/v1/posts/?auth_token=${process.env.NEXT_PUBLIC_CRYPTOPANIC_API_KEY}&public=true&page=${page}&metadata=true`,
+    `${URL}api/v1/posts/?auth_token=${process.env.NEXT_PUBLIC_CRYPTOPANIC_API_KEY}&public=true&page=${page}&metadata=true&filter=important`,
     {}
   );
 
