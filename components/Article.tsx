@@ -63,7 +63,21 @@ const Article: React.FC<IArticleProps> = ({
       <div className='lg:col-span-3 p-4 flex flex-grow flex-col'>
         <h3 className='text-center uppercase font-semibold mb-2'>{source.title}</h3>
         <h2 className='text-center text-xl font-bold lg:text-3xl mb-4'>{title}</h2>
-        <div className=''>{parse(description)}</div>
+        {/* Two divs below make the long text wrap without specifying width */}
+        <div className='flex'>
+          <div className='flex-grow w-0 break-words'>
+            <p className=''
+              style={{
+                display: '-webkit-box',
+                WebkitLineClamp: 8,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden'
+              }}
+            >
+              {parse(description.replace(/<\/?[^>]+(>|$)/g, ""))}
+            </p>
+          </div>
+        </div>
         <a href={url} className='absolute w-full h-full top-0 left-0' target='_blank' rel='noreferrer' ></a>
       </div>
     </article>

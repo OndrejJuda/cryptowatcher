@@ -76,7 +76,7 @@ const Coins: NextPage = () => {
 
   return (
     <>
-      <main className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-10 gap-4 relative'>
+      <main className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-10 gap-8 relative'>
         {
           coins.map((coin, i) => {
             return (

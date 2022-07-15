@@ -83,7 +83,7 @@ const News: NextPage = (props) => {
 
   return (
     <>
-      <main className='flex flex-col gap-4 p-10 items-center'>
+      <main className='flex flex-col gap-8 p-10 items-center'>
         {
           articles.map((articleItem, i) => {
             return (
